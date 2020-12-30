@@ -1,0 +1,50 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+    "manifest_version": 2,
+    "name": "Troop 66Feature Assistant Extension for Scoutbook",
+    "description": "Extends Scoutbook functionality with Leadership export",
+    "version": "0.0.1.23",
+    "background": {
+        "scripts": ["sbbackground.js"]
+    },
+    "content_scripts": [{
+            "matches": [
+                "https://www.scoutbook.com/*",
+                "https://qa.scoutbook.com/*",
+                "https://stg2.scoutbook.com/*"
+                ],
+            "js": ["sbcontent.js"],
+            "run_at": "document_start"
+        }
+    ],
+    "icons": {
+        "128": "book128.png",
+        "16": "book16.png",
+        "32": "book32.png",
+        "48": "book48.png"
+    },
+    "browser_action": {
+        "default_icon": "book128.png",
+        "default_popup": "popup.html"
+    },
+    "options_ui": {
+        "page": "options.html",
+        "chrome_style": true
+    },
+
+    "web_accessible_resources": ["sbutils.js",
+        "leadershipExport.js",
+        "common.js",
+        "youthLeaderQE.js",
+        "localsession.js",
+        "recur.js",
+        "bindings.js"
+    ],
+    "permissions": [
+        "https://www.scoutbook.com/*",
+        "https://qa.scoutbook.com/*",
+        "https://stg2.scoutbook.com/*",
+        "storage"
+    ]
+}

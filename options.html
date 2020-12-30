@@ -1,0 +1,688 @@
+<!doctype html>
+
+<html lang="en">
+ 
+<head>
+
+<title>Feature Assistant Extension for Scoutbook</title>
+
+<style>
+
+      body {
+
+		min-width: 1000px !important;
+		    width: auto !important;
+			width:1000px;
+		    border-style: solid;
+			border-width: 15px;
+			border-color: #d2cab6;
+      }
+
+	  
+	  th, td {
+    padding: 8px;
+    text-align: left;
+		}
+
+		.font12 {
+			font-size:12pt;
+		}
+		.fontAdelle {
+			font-family: Adelle,Helvetica;
+		}
+
+		.hiRow {
+			background-color: #f2f2f2;
+		}
+	  
+</style>
+
+<script src="options.js"></script>
+</head>
+
+<body bgcolor="white" lang=EN-US link=blue vlink="#954F72" style='border-style: solid; font-family: Adelle,Helvetica; margin: 0 ;color:#555555;'>
+<!--"#D2CAB6"   #FFFFEE-->
+
+<div>
+<div >
+	<!--position: absolute; width: 30px; height: 30px; top: 0; left: -5px; border: 1px solid #CCC;-->
+    <p style="float: left;">	
+	<img src="/book128.png"  style="left: 6px; top: -2px; width: 60px; padding-right: 20px; " /> 
+	<p> 
+</div>
+
+
+<div >
+<span class='font12' style='left: 90px'>
+	<p style='text-align:center; font-family: Adelle,Helvetica; font-size: 16pt; color:red;'><b><u>Feature Assistant</b></u>
+	<p id='version' style='text-align:center; font-family: Adelle,Helvetica; font-size: 12pt; color:red;'></p>
+	<p style='text-indent:.85in'><b>Note: This extension was created by a Volunteer and is NOT supported by BSA Scoutbook</b></p>
+	<p style='text-indent:.85in'>This extension tool extends the functionality of Scoutbook in various different ways: </p>
+</span>
+
+
+</div>
+<div id='newversion' style='text-align:center; font-family: Adelle,Helvetica; font-size: 16pt; color:red;'></div>
+
+<div style="clear: left; ">
+
+
+<div style="overflow-x:auto; margin: 10">
+ <table style='border-collapse:collapse;border:left; width:100%; border-style: solid;border-color: white;border-width: 15px; color:#555555;'>
+ 
+ 
+ <tr style='background-color: #555555;'>
+  <td  valign=top style='width:116.75pt;'>
+  <span style='font-size:14pt;font-family: Adelle,Helvetica; color:white;'>  
+  <b>Topic</b>
+  </span>
+  </td>
+  <td  valign=top style='width:350.75pt; '>
+  <span style='font-size:14pt;font-family: Adelle,Helvetica; color:white;'>
+  <b>Description (links)</b>
+  </span>
+  </td> 
+ </tr> 
+ 
+  <tr >
+  <td  valign=top style='width:116.75pt;'>
+  <span class='font12 fontAdelle'>  
+  <b>PDF Help Documents</b>
+  </span>
+  </td>
+  <td  valign=top style='width:350.75pt; '>
+  <span class='font12 fontAdelle'>
+  <a href="https://drive.google.com/open?id=0B4bXAHBshADYVUlHV01xTllYM00" target="_blank">Installation, Table of Contents, and Troubleshooting</a> 
+  </span>
+  </td> 
+ </tr>
+ 
+ 
+ 
+ 
+	<tr class='hiRow'>
+		<td  rowspan=10 valign=top style='width:116.75pt; '>
+			<span class='font12 fontAdelle'>
+			<b>Calendar<b>
+			</span>
+		</td>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=0B7eow1old_bYWXd0Z0hBWEF0bFE" target="_blank">Repeating Events</a>
+			You can create, edit and delete repeating calendar events
+			</span>
+		</td>
+	</tr>
+	<tr class='hiRow' >
+		<td valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=0B4bXAHBshADYTlM1a0RXX3BldEE" target="_blank">Copy Events</a>
+			You can Copy or Clone Events, with changes as desired, to a new date
+			</span>
+		</td>
+	</tr>
+	<tr class='hiRow'>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=0B7eow1old_bYUnkyNWRtUjNRWW8" target="_blank">Calendar Messaging</a>
+			You can select invitees based on their RSVP status or attendees based on their Attendance status to send them messages
+			</span>
+		</td>
+	</tr>
+	 <tr class='hiRow'>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=0B7eow1old_bYbVVDYlloc3NNMG8" target="_blank">Update Multiple Event Invitees</a>
+			You can add invitees to any number of future events in a quick entry fashion
+			</span>
+		</td>
+	</tr>
+	<tr class='hiRow' >
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=0B4bXAHBshADYbm02NlVOOVJ0RUU" target="_blank">Enhanced Calendar View</a>
+			You get a modified calendar view that displays a + sign wherever there are multiple events on a single day.  This feature will disappear when the display of multiple events is supported on the calendar.</span>
+		</td>
+	</tr>
+
+ 	<tr class='hiRow'>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+            <!--
+			<a href="https://drive.google.com/open?id=0B4bXAHBshADYd3dtdGtXOEhZUE0" target="_blank">Camping/Hiking/Service Log Autofill Quick Entry</a>
+            You can open the Camping/Hiking/Service Quick Entry logs pre-filled with information from the Calendar Event.</span>
+            -->
+            <b>Quick Entry Logs are not available at this time.</b><br><br>
+                            Scoutbook has introduced a new Activity log system that is incompatible with the current volunteer created extension.  The volunteer developer is investigating the issue and hopes to find a way to restore the feature with the new Activity logs.<br><br>
+                            Sorry for the inconvenience. 
+		</td>
+	</tr>
+
+  	<tr class='hiRow'>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=0B4bXAHBshADYR1NFek52OXltdWs" target="_blank">Calendar CSV Event Import</a>
+			You can import calendar events using a CSV file.</span>
+		</td>
+	</tr>
+  	<tr class='hiRow'>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=1svDqCG_emPa0u4h-dvWnQtBuzpwuj9eW" target="_blank">Calendar Event CSV Export</a>
+			You can export calendar events to a CSV file.</span>
+		</td>
+	</tr>
+  	<tr class='hiRow'>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<i>The RSVP report feature is now built directly into Scoutbook!</i></span>
+		</td>
+	</tr>		
+  	<tr class='hiRow'>
+		<td  valign=top style='width:350.75pt; '>
+			<span class='font12 fontAdelle'>
+			<a href="https://drive.google.com/open?id=1fgmWgJkqwhH9WOJMdvIZ38CwhQTAEEMM" target="_blank">Add Scout Birthdays</a>
+			You can add (or delete) scout birthdays to the Unit Calendar with the click of a button.</span>
+		</td>
+	</tr>	
+	
+	
+	
+ <tr >
+	<td  rowspan=3 valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+			<b>Payment Log</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=0B7eow1old_bYM0t3UGFKR1NpU1U" target="_blank">Payment Log Quick Entry</a>
+		You can quick enter credits and debits for groups of Scouts</span>
+	</td> 
+</tr>
+<tr>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=0B4bXAHBshADYZUJTd2R5V3g1Yzg" target="_blank">Payment Log Balance Report</a>
+		You can view/print a Payment Log Balances and Transaction Report for Scouts and optionally the Unit, AND send Balance (Due) Emails to account holders</span>
+	</td>
+ </tr>
+<tr>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=141HfB-w0HJS7wVzFbz0pluGm98_wm8t5" target="_blank">Payment Log Unit Accounting</a>
+		You can have a Unit Account that works with the Scout Accounts as subaccounts</span>
+	</td>
+ </tr>
+ 
+ 
+<tr class='hiRow'>
+	<td  rowspan=1 valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Swimmer Classification</b>
+	</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+	<span class='font12 fontAdelle'>
+	<a href="https://drive.google.com/open?id=0B4bXAHBshADYT19WUDhoRXFEWW8" target="_blank">Swimmer Classification Quick Entry</a>
+	You can quick enter swimmer classifications and dates for groups of Scouts and Leaders</span>
+	</td>
+ </tr>
+ 
+ <tr >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Health Record Dates</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+	<span class='font12 fontAdelle'>
+	<a href="https://drive.google.com/open?id=0B4bXAHBshADYVXVQcnltYnRReGs" target="_blank">Health Record Quick Entry</a>
+	You can quick enter health record dates for multiple Scouts and Leaders on one screen</span>
+	</td>
+ </tr>
+ 
+ <tr class='hiRow'>
+	<td  rowspan=2 valign=top style='width:116.75pt;'>
+	<span class='font12 fontAdelle'>  
+	<b>OA Membership Data</b>
+	</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=0B4bXAHBshADYZE9SSU01anRaOEU" target="_blank">OA Membership Quick Entry</a>
+		You can quick enter OA membership information for multiple Scouts on one screen</span>
+	</td>
+</tr>
+<tr class='hiRow'>  
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href=" https://drive.google.com/open?id=0B4bXAHBshADYQUFBQ2praHpjeVk" target="_blank">OA Membership Report</a>
+		You can view an OA membership report</span>
+	</td>
+ </tr>
+ 
+
+ 
+ 
+ 
+ <tr>
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Session Monitor</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		Popups warn you if a Session Timeout is impending and give you an option to continue the session.  A countdown timer is shown at the top of this menu.  The extension icon in the browser shows green when logged in, yellow if there has been no activity for 25 minutes, and red after 30 minutes which should coincide with being autmatically logged out by Scoutbook.  This feature is limited in Firefox on Android, and will only work
+		well if one Scoubook window is open.  An upcoming release of Firefox for Android will enable the full functionality.
+		</span>
+	</td> 
+ </tr> 
+ 
+ 
+
+ <tr class='hiRow'>
+	<td  valign=top style='width:116.75pt;  '>
+		<span class='font12 fontAdelle'>
+		<b>Merit Badge Counselor Quick Connect</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href=" https://drive.google.com/open?id=1E7xQZNoLfAU3LudMA0PE6mp0hfXtaMKn" target="_blank">Connect to Merit Badge Counselor Fast</a>
+		Invite Counselors to connect to Scouts without having to mess with Adding Connections
+		</span>
+	</td>
+ </tr>
+ 
+ 
+ 
+ 
+<tr >
+	<td  valign=top style='width:116.75pt;  '>
+		<span class='font12 fontAdelle'>
+		<b>Merit Badge Quick Entry for Units</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=0B4bXAHBshADYRkxyRk5wTk9aSGc" target="_blank">Add Merit Badge Quick Entry</a>
+		You can use Quick Entry to Add merit badges, sign as the Unit Leader, and Assign Merit Badge Counselors
+		</span>
+	</td>
+</tr>
+
+ 
+<tr class='hiRow' >
+	<td  rowspan=5 valign=top style='width:116.75pt; '>
+		<span class='font12 fontAdelle'>
+		<b>Merit Badge Features for Merit Badge Counselors</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<i> The Merit Badge Quick Entry for Counselors is
+		now built in to Scoutbook directly!</i>  You can use Quick Entry to Approve requirements for multiple scouts in multiple units all at once.
+		</span>
+	</td>
+</tr>
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<i>The Merit Badge Req. Quick Entry for Counselors is 
+		now built in to Scoutbook directly!</i> You can use Quick Entry to Approve completed Merit badges for multiple scouts in multiple units all at once.
+		</span>
+	</td>
+</tr>
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<i> The Quick Pick to Edit Scout Merit Badge is
+		now built in to Scoutbook directly!</i> You can see the Scouts you counsel, narrow the list to a specific badge, and click to edit the Scout's Merit Badge.
+		</span>
+	</td>
+</tr>
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1D8snrE7IeO5Ai5skQBGpMG8h_V8272x1" target="_blank">MBC Connect to Scouts listed in CSV file</a>
+		Counselors can list multiple Scouts in a CSV file, and import it to connect to them all at once.  Useful for a setting up Merit Badge Classes!
+		</span>
+	</td>
+</tr>
+
+
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1As-WYTwpMnfIX5_MXm1JkZZkC8jiQk2I" target="_blank">Merit Badge Report for Counselors</a>
+		You can get a report for Scouts you counsel, both inside and outside your unit, that shows completion status of the merit badges you counsel.
+		</span>
+	</td>
+</tr>
+
+
+
+
+<tr >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Merit Badge Import from Summer Camps</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=0B7eow1old_bYajNrS1JhVHBsNG8" target="_blank">Black Pug Summer Camp Import</a>
+		You can import Summer Camp Merit Badge Records into Scoutbook from Black Pug Software (scoutingevent.com).</span>
+	</td>
+</tr>
+
+<tr  class='hiRow' >
+	<td   rowspan=2 valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Import Scouts and Parents</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=0B4bXAHBshADYc1p2Y1lGMVY3bnc" target="_blank">Scout and Parent CSV Import</a>
+		You can import New Scouts, invite parents, and update their essential profile information from a CSV file.</span>
+	</td>
+</tr>
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href=" https://drive.google.com/open?id=1gWbBsQVmMsspsvJ80Me87yda6_jwCC97" target="_blank">Parent CSV Import</a>
+		You can import and invite parents for existing Scouts, and update their essential profile information from a CSV file.</span>
+	</td>
+</tr>
+
+
+
+
+<!--
+<tr >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Clean Message and Forum Pasting</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		When you paste events into Scoutbook, a special filter will remove all unsupported characters so you don't see gibberish in sent emails or forum posts.  Please note, this will also 
+		remove some special characters like the (c) copyright symbol that might be in your original source that you are copying from.</span>
+	</td>
+</tr>
+
+#f2f2f2
+
+-->
+
+<tr  style='background-color: white;'  >
+	<td rowspan=4 valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Connection Management</b> 
+		</span>
+	</td>
+		<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=0B4bXAHBshADYQVNHcXJyWUd1UXM" target="_blank">Preserve parent Connections</a>
+		When changing all Scout permissions on a row in the Connection Manager, the permissions of the adult's children connections will be preserved</span>
+	</td>
+</tr> 
+<tr style='background-color: white;' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1mTmzmTEpma_plJy-mNuZT4_sAPZGpNje" target="_blank">Change Scout Column Connections</a>
+		Clicking on the Scout name in the connection manager allows you to change permissions for all adults except parents and Admins
+		</span>
+	</td>
+</tr >
+<tr style='background-color: white;' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1ueLjsIdmVzgKsmitf8KkrH_2moWqnGoD" target="_blank">Set Permissions based on Position</a>
+		Set connection permissions between adults and Scouts by setting a default set of permissions based on adult positions
+		</span>
+	</td>
+</tr >
+<tr style='background-color: white;' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1RUdDs360SGfH9XETN0MparqE5gCSxdfS" target="_blank">Dashboard-Connection Cleanup for MBCs</a>
+		Merit Badge Counselors can easily identify Scouts that they no longer need a connection to, disconnect from them, which removes unnecessary units from their Dashboard
+		</span>
+	</td>
+</tr >
+
+
+<tr class='hiRow'  >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>School Information</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1N1mmvQQvcOSIrz60QDAGAxf1GdD69bgf" target="_blank">Update School Information</a>
+		You can easily update school names and grades for multiple Scouts, including a increment grade button</span>
+	</td>
+</tr>
+
+
+<tr style='background-color: white;' >
+	<td rowspan=2 valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Training Information</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=14aPzDQL8W7CJ4OjTSsTD8VyiPEFUg3pA" target="_blank">Quick Enter Scout Training</a>
+		You can easily enter training for multiple Scouts</span>
+	</td>
+</tr>
+
+
+<tr style='background-color: white;' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=19HWR6jatqZGtya9h-PDTf-Y-0RyXKIeo" target="_blank">Adult YPT Report</a>
+		View an Adult YPT training report for leaders AND parents, including status for new 2018 requirements</span>
+	</td>
+</tr>
+
+
+<tr class='hiRow'  >
+	<td rowspan=5 valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Messages</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1C1rxPLPriDXPq-9Q4rA6H7kOLReyD6HR" target="_blank">Send messages based on Patrol or Den</a>
+		You can select message recipients based on patrols and dens</span>
+	</td>
+</tr>
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=179FnABz3_b5Osz2a4Yi4sdWaoVYhq5a9" target="_blank">Custom Email Groups</a>
+		You can create and use Custom Email Groups for messaging</span>
+	</td>
+</tr>
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		As a Sender of messages, you are always copied, even if you forget to click on yourself.</span>
+	</td>
+</tr>
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		You can preview messages to see what they look like with the BB codes translated</span>
+	</td>
+</tr>
+
+
+<tr class='hiRow' >
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/open?id=1PAV3_vwLbKO0VseT-NOWvD-QAy3L05vR" target="_blank">Recipient List and YPT Notice</a>
+		You can include a list of recipient names in a BCC message, and include a YPT notice on messages from or to youth</span>
+	</td>
+</tr>
+
+
+
+<tr style='background-color: white;'>
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Print Roster</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		You can simple sort the Print Roster by clicking on the table column headings</span>
+	</td>
+</tr>
+
+
+<tr  class='hiRow' >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Scout Leader Positions</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/file/d/1pZHlcmZ3rZDeOJaJuk5jh1Dws866LEMM/view" target="_blank">Update Scout Youth Leadership Positions</a>
+		You can easily add and close out Scout Leadership Positions in a Quick Edit</span>
+	</td>
+</tr>
+
+<tr style='background-color: white;' >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Quick Undo-Reset Requirements</b>
+		
+
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/file/d/1g7lxqNqTK3hQu-E1Lv4nvgWdAk7D8mjR/view" target="_blank">Correct requirement marking mistakes</a>
+		Awards, Merit Badges, and Adventures pages now have an option to remove Approvals, Completions, or both.</span>
+	</td>
+</tr>
+
+<tr class='hiRow' >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Extension Upgrade Notifications</b>
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		Look at the bottom of this page.  Want to be notified when bugs are fixed? Or when new features introduced? Or not at all...  Select your preference.</span>
+	</td>
+</tr>
+
+<tr style='background-color: white;' >
+	<td  valign=top style='width:116.75pt;'>
+		<span class='font12 fontAdelle'>  
+		<b>Council Admin Feature</b>
+		
+
+		</span>
+	</td>
+	<td  valign=top style='width:350.75pt; '>
+		<span class='font12 fontAdelle'>
+		<a href="https://drive.google.com/file/d/1bv3FN7_PxRxqt9XiRo5eT5G2XuqDUjHi/view" target="_blank">Council User Statistics</a>
+		Council Admins can see recent usage chart by district and unit type</span>
+	</td>
+</tr>
+
+
+
+
+</table>
+ 
+
+
+</div>
+
+<div style='margin:.85in;'>
+<p ><span class='font12 fontAdelle'></span>
+	<span class='font12'>
+		This extension is also available for Firefox users as a Firefox Add-on.  Unlike Chrome, Firefox supports Add-ons on the mobile Android platform. 
+		<a href="https://dea1koavvbivi.cloudfront.net/firefox_addonlink.html" target="_blank">Install Feature Assistant Addon for Firefox</a>
+	</span>
+</p>
+	
+<p ><span class='font12 fontAdelle'></span>
+
+	<span class='font12'>
+		General Scoutbook information can be found here:
+	</span>
+
+	<span class='font12'>
+		<a href="https://help.scoutbook.com/" target="_blank">
+			Help with Scoutbook
+		</a>
+	</span>
+</p>
+<p ><span class='font12 fontAdelle'></span>
+	<span class='font12'>
+	</span>
+
+	<span class='font12'>
+		For Questions or Issues with this extension, please contact suac.gf@gmail.com
+	</span>
+</p>
+<p ><span class='font12 fontAdelle'></span>
+	<span class='font12'>
+	</span>
+
+	<span class='font12'>
+		<a href="https://discussions.scouting.org/c/scoutbook/feature-assistant-extension" class="noellipsis">
+					Feature Assistant Forum Thread - change log
+		</a>
+	</span>
+</p>
+
+<p></p>
+
+
+
+<fieldset data-role="controlgroup" style="margin-top: 1em; ">
+	<legend class="text-orange">
+		Choose notification settings for updates to this extension:
+	</legend>	
+
+
+	<input type="radio"  name="Notify" id="NoNotify" data-theme="d" value="0" checked />
+	<label for="NoNotify">Do not notify for ANY change</label>	
+	<br>
+
+	<input type="radio"  name="Notify" id="MajorNotify" data-theme="d" value="1" />	
+	<label for="NoNotify">Only Notify for Feature Updates</label>
+	<br>
+
+	<input type="radio"  name="Notify" id="AllNotify" data-theme="d" value="2" />	
+	<label for="AllNotify">Notify for all changes, bug fixes and new features</label>	
+	
+</fieldset>
+
+</div>
+
+
+
+
+</div>
+</div>
+</body>
+
+</html>
