@@ -93,6 +93,7 @@ On Startup
 	on a new tab, I don't want any popups.
 	
 */
+var bkgHostArray = chrome.runtime.getManifest().content_scripts[0].matches;
 
 var WARNtime = 25; // numbr of minutes before warning popup
 var TOtime = 30; // Timeout period - 30 minutes
@@ -101,33 +102,19 @@ var yellowTime = 1000 * 60 * (TOtime - WARNtime); // 5 min in ms
 var redTime = 1000 * 60 * TOtime; // 30 minutes in ms
 var id = ''; // tabs[0].id;
 
-var othTimer; //interval timer handle
-var wwwTimer; //interval timer handle
-var wwwStartTime = -1; //Date.now()-30*60*1000;		// set initial to 30 minutes before chrome opened
-var othStartTime = -1; //Date.now()-30*60*1000;
-
-var wwwUserClosedWarning = false; //sticky notices
-var wwwUserClosedLogoffNotice = false; //sticky notices
-var othUserClosedWarning = false; //sticky notices
-var othUserClosedLogoffNotice = false; //sticky notices
-var wwwSession = false;
-var othSession = false;
-var wwwWarningShownOnce = false; // Allows warning to be displayed, but only on first clock tick.  Prevents a redisplay every second
-var othWarningShownOnce = false;
-
-var wwwInitLogoff = false; //Mirrors Session but is cleared by a close button on popup.  Logoff popup on shows if it is true.
-var othInitLogoff = false;
-
+var originObjList=[];       // contains list of origin objects
 var debugList = [];
 var debug = false;
 
-var wwwURLTime = [];
-var othURLTime = [];
+
 
 chrome.runtime.onMessage.addListener(function (msgobj, sender) {
     try {
         if (msgobj.msg) {
             ev = JSON.parse(msgobj.msg);
+            if (!(typeof ev === 'object')) {
+                return true;
+            }
         } else {
             //console.log("unrecognized message", msgobj);
             return true;
@@ -136,6 +123,7 @@ chrome.runtime.onMessage.addListener(function (msgobj, sender) {
         console.log("parse error", e, msgobj);
         return true;
     }
+    
     logDebug('New message event rcv in background: ' + ev.text);
     if (isLocalLibraryCmd(ev.text) == false) {
         //log only if received cmd
@@ -153,235 +141,168 @@ chrome.runtime.onMessage.addListener(function (msgobj, sender) {
         XHR_Proxy(ev);
     }
 
-    if (ev.text == "RestartSession") {
-
-        //logDebug('New message event rcv in background: '  + ev.text + ' ' + ev.sensitive + ' ' + ev.origin);
-        if (ev.origin.indexOf('www.') != -1) {
-            if (wwwURLTime.length >= 4) {
-                wwwURLTime.shift();
-            }
-            wwwURLTime.push(logTime(Date.now()) + ' ' + ev.url);
-
-            //what kind of reset? from a pger requiring a login or not
-            var start = false;
-            if (ev.sensitive == 'yes') {
-                // from page requiring login
-                start = true;
-            } else {
-                // from page not requiring login.
-
-                if (wwwSession == true) {
-                    start = true;
-                }
-            }
-
-            if (start == true) {
-                logDebug('Resetting www Active Session');
-
-                chrome.browserAction.setBadgeText({
-                    text: '+'
+    var originPtr = -1;
+    for (var i = 0;i < originObjList.length;i++) {
+        if (originObjList[i].origin == ev.origin) {
+            originPtr = i;
+            break;
+        }
+    }
+    
+    if(originPtr == -1) {
+        //init timers and flags for this origin
+       // console.log(ev);
+        originObjList.push({origin:ev.origin,
+                 timer:'',
+                 startTime:-1,
+                 userClosedWarning:false,
+                 userClosedLogoffNotice:false,
+                 session:false,
+                 warningShownOnce:false,
+                 initLogoff:false,
+                 URLTime:[],
                 });
-                chrome.browserAction.setBadgeBackgroundColor({
-                    color: [24, 204, 0, 1]
-                }); //Green
+        originPtr =  originObjList.length - 1;       
+    }
 
-                wwwUserClosedWarning = false; //sticky notices
-                wwwUserClosedLogoffNotice = false; //sticky notices
-                //reset interval
-                clearInterval(wwwTimer);
-                wwwSession = true;
-                wwwWarningShownOnce = false; // Re-allows a warning to be displayed
-                wwwInitLogoff = true;
-                // First set/reset a timer to trigger a prompt when the session is nearing an end
-                wwwStartTime = Date.now();
-                wwwTimer = setInterval(function () {
-                        wwwShowTimer();
-                    }, 1000);
-            }
+
+    if (ev.text == "RestartSession") {
+        //logDebug('New message event rcv in background: '  + ev.text + ' ' + ev.sensitive + ' ' + ev.origin);
+        //Find the origin
+
+        if (originObjList[originPtr].URLTime.length >= 4) {
+            originObjList[originPtr].URLTime.shift();
+        }
+        originObjList[originPtr].URLTime.push(logTime(Date.now()) + ' ' + ev.url);
+
+        //what kind of reset? from a pger requiring a login or not
+        var start = false;
+        if (ev.sensitive == 'yes') {
+            // from page requiring login
+            start = true;
         } else {
-            //othUserClosedWarning=false;
-            //othUserClosedLogoffNotice=false;
-            if (othURLTime.length >= 4) {
-                othURLTime.shift();
-            }
-            othURLTime.push(logTime(Date.now()) + ' ' + ev.url);
-            var start = false;
-            if (ev.sensitive == 'yes') {
+            // from page not requiring login.
+
+            if (originObjList[originPtr].session == true) {
                 start = true;
-            } else {
-                if (othSession == true) {
-                    start = true;
-                }
-            }
-
-            if (start == true) {
-                logDebug('Resetting oth Active Session');
-
-                othUserClosedWarning = false; //sticky notices
-                othUserClosedLogoffNotice = false; //sticky notices
-                //reset interval
-                clearInterval(othTimer);
-                othSession = true;
-                othWarningShownOnce = false;
-                othInitLogoff = true;
-                // First set/reset a timer to trigger a prompt when the session is nearing an end
-                othStartTime = Date.now();
-                othTimer = setInterval(function () {
-                        othShowTimer();
-                    }, 1000);
-
             }
         }
+
+        if (start == true) {
+            logDebug('Resetting '+originObjList[originPtr].origin+' Active Session');
+
+            chrome.browserAction.setBadgeText({
+                text: '+'
+            });
+            chrome.browserAction.setBadgeBackgroundColor({
+                color: [24, 204, 0, 1]
+            }); //Green
+
+            originObjList[originPtr].userClosedWarning = false; //sticky notices
+            originObjList[originPtr].userClosedLogoffNotice = false; //sticky notices
+            //reset interval
+            clearInterval(originObjList[originPtr].timer);
+            originObjList[originPtr].session = true;
+            originObjList[originPtr].warningShownOnce = false; // Re-allows a warning to be displayed
+            originObjList[originPtr].initLogoff = true;
+            // First set/reset a timer to trigger a prompt when the session is nearing an end
+            originObjList[originPtr].startTime = Date.now();
+            originObjList[originPtr].timer = setInterval(function () {
+                    originShowTimer(originPtr);
+                }, 1000);
+        }
+
     }
 
     if (ev.text == 'ClosePopup') {
         //logDebug('New message event rcv in background: '  + ev.text+ ' ' + ev.origin);
-        if (ev.origin.indexOf('www.') != -1) {
-            if (wwwSession == true) {
-                wwwUserClosedWarning = true;
+        //ev.origin.indexOf('www.') != -1) 
 
-            } else {
-                chrome.browserAction.setBadgeText({
-                    text: ''
-                });
-                wwwUserClosedLogoffNotice = true;
 
-                wwwInitLogoff = false;
-            }
+        if (originObjList[originPtr].session == true) {
+            originObjList[originPtr].userClosedWarning = true;
+
         } else {
-            if (othSession == true) {
-                othUserClosedWarning = true;
-            } else {
-                othUserClosedLogoffNotice = true;
-                othInitLogoff = false;
-            }
-        }
+            chrome.browserAction.setBadgeText({
+                text: ''
+            });
+            originObjList[originPtr].userClosedLogoffNotice = true;
+
+            originObjList[originPtr].initLogoff = false;
+        }        
+        
+       
     }
 
     // b71780684
     if (ev.text == 'Visible') {
         //logDebug('New message event rcv in background: '  + ev.text + ' ' + ev.origin);
-        if (ev.origin.indexOf('www.') != -1) {
+        //if (ev.origin.indexOf('www.') != -1) 
+        if (originObjList[originPtr].session == true) {
+            // as far as we know so far, a session is still active.  Could have been hibernated though...
+            clearInterval(originObjList[originPtr].timer); // Stop the interval timer
+            var elapsedTime = Date.now() - originObjList[originPtr].startTime; // Get the new Elapsed time in ms from the saved start time, in case the cpu hibernated
 
-            if (wwwSession == true) {
-                // as far as we know so far, a session is still active.  Could have been hibernated though...
-                clearInterval(wwwTimer); // Stop the interval timer
-                var wwwElapsed = Date.now() - wwwStartTime; // Get the new Elapsed time in ms from the saved start time, in case the cpu hibernated
 
+            //Reasons to clear popups - popup showing on a page, navigation in another page reset the session
+            if ((redTime - elapsedTime) > yellowTime) {
+                //if more than 5 minutes is left ; 30 min in ms - elapsed in ms if gt 5 min in ms
+                //clear any popups
 
-                //Reasons to clear popups - popup showing on a page, navigation in another page reset the session
-                if ((redTime - wwwElapsed) > yellowTime) {
-                    //if more than 5 minutes is left ; 30 min in ms - elapsed in ms if gt 5 min in ms
-                    //clear any popups
-
-                    postMsg({
-                        hostx: 'www.',
-                        text: "HidePopups"
-                    }, id);
-                }
-                // Previously requested a clear so if it is already displayed, clear it
-                if (wwwUserClosedWarning == true) {
-                    if (yellowTime > (redTime - wwwElapsed)) {
-                        if ((redTime - wwwElapsed) >= 0) {
-                            // clear if previously cleared and in warning period
-                            postMsg({
-                                hostx: 'www.',
-                                text: "HidePopups"
-                            }, id);
-                        }
-                    }
-                }
-                // Previously requested a clear so if it is already displayed, clear it
-                if (wwwUserClosedLogoffNotice == true) {
-                    postMsg({
-                        hostx: 'www.',
-                        text: "HidePopups"
-                    }, id);
-                }
-
-                if (wwwElapsed > redTime) {
-                    //good morning, we just woke up from hibernation and are logged out
-                    // We handle this case when the interval timer fires
-                }
-
-                wwwWarningShownOnce = false; //when switching tabs, if someone clicked outside the box, re-allows warning display
-                wwwTimer = setInterval(function () {
-                        wwwShowTimer();
-                    }, 1000);
-            } else {
-                //logged out
-                if (wwwUserClosedLogoffNotice == true) {
-                    // Previously requested a clear so if it is already displayed, clear it
-                    postMsg({
-                        hostx: 'www.',
-                        text: "HidePopups"
-                    }, id);
-                } else {
-                    if (wwwInitLogoff == true) {
+                postMsg({
+                    hostx: originObjList[originPtr].origin,
+                    text: "HidePopups"
+                });
+            }
+            // Previously requested a clear so if it is already displayed, clear it
+            if (originObjList[originPtr].userClosedWarning == true) {
+                if (yellowTime > (redTime - elapsedTime)) {
+                    if ((redTime - elapsedTime) >= 0) {
+                        // clear if previously cleared and in warning period
                         postMsg({
-                            hostx: 'www.',
-                            text: "ShowLoggedOffPopup"
-                        }, id);
-                        chrome.browserAction.setBadgeText({
-                            text: '-'
+                            hostx: originObjList[originPtr].origin,
+                            text: "HidePopups"
                         });
-                        chrome.browserAction.setBadgeBackgroundColor({
-                            color: [255, 0, 0, 255]
-                        }); //red		+
-
                     }
                 }
             }
+            // Previously requested a clear so if it is already displayed, clear it
+            if (originObjList[originPtr].userClosedLogoffNotice == true) {
+                postMsg({
+                    hostx: originObjList[originPtr].origin,
+                    text: "HidePopups"
+                });
+            }
 
+            if (elapsedTime > redTime) {
+                //good morning, we just woke up from hibernation and are logged out
+                // We handle this case when the interval timer fires
+            }
+
+            originObjList[originPtr].warningShownOnce = false; //when switching tabs, if someone clicked outside the box, re-allows warning display
+            originObjList[originPtr].timer = setInterval(function () {
+                    originShowTimer(originPtr);
+                }, 1000);
         } else {
-            if (othSession == true) {
-                clearInterval(othTimer);
-                var othElapsed = Date.now() - othStartTime;
-                //console.log((redTime-othElapsed), yellowTime);
-                if ((redTime - othElapsed) > yellowTime) {
-                    //clear any popups
-                    postMsg({
-                        hostx: 'oth',
-                        text: "HidePopups"
-                    }, id);
-                }
-                if (othUserClosedWarning == true) {
-                    if (yellowTime > (redTime - othElapsed)) {
-                        if ((redTime - othElapsed) >= 0) {
-                            // clear if previously cleared and in warning period
-                            postMsg({
-                                hostx: 'oth',
-                                text: "HidePopups"
-                            }, id);
-                        }
-                    }
-                }
-
-                if (othUserClosedLogoffNotice == true) {
-                    postMsg({
-                        hostx: 'oth',
-                        text: "HidePopups"
-                    }, id);
-                }
-                othWarningShownOnce = false;
-
-                othTimer = setInterval(function () {
-                        othShowTimer();
-                    }, 1000);
+            //logged out
+            if (originObjList[originPtr].userClosedLogoffNotice == true) {
+                // Previously requested a clear so if it is already displayed, clear it
+                postMsg({
+                    hostx: originObjList[originPtr].origin,
+                    text: "HidePopups"
+                });
             } else {
-                //logged out
-                if (othUserClosedLogoffNotice == true) {
+                if (originObjList[originPtr].initLogoff == true) {
                     postMsg({
-                        hostx: 'oth',
-                        text: "HidePopups"
-                    }, id);
-                } else {
-                    if (othInitLogoff == true) {
-                        postMsg({
-                            hostx: 'oth',
-                            text: "ShowLoggedOffPopup"
-                        }, id);
-                    }
+                        hostx: originObjList[originPtr].origin,
+                        text: "ShowLoggedOffPopup"
+                    });
+                    chrome.browserAction.setBadgeText({
+                        text: '-'
+                    });
+                    chrome.browserAction.setBadgeBackgroundColor({
+                        color: [255, 0, 0, 255]
+                    }); //red
                 }
             }
         }
@@ -389,24 +310,23 @@ chrome.runtime.onMessage.addListener(function (msgobj, sender) {
 
     if (ev.text == 'LogOff') {
         //logDebug('New message event rcv in background: '  + ev.text );
-        if (ev.origin.indexOf('www.') != -1) {
-            //dbconsole.log('BG -----  user logout received.  Clearing all timers');
-            wwwSession = false;
-            clearInterval(wwwTimer);
-            wwwStartTime = Date.now() - 30 * 60 * 1000;
-            updateTimerPop('wwwtimer', 'User Logged Off');
 
-            chrome.browserAction.setBadgeText({
-                text: ''
-            });
-
-        } else {
-            //dbconsole.log('BG -----  user logout received.  Clearing all timers');
-            othSession = false;
-            clearInterval(othTimer);
-            othStartTime = Date.now() - 30 * 60 * 1000;
-            updateTimerPop('othtimer', 'User Logged Off');
+        var popupDiv='wwwtimer';
+        
+        if (/qa/.test(originObjList[originPtr].origin)) {
+            popupDiv='othtimer';
         }
+        
+        originObjList[originPtr].session = false;
+        clearInterval(originObjList[originPtr].timer);
+        originObjList[originPtr].startTime = Date.now() - 30 * 60 * 1000;
+        updateTimerPop(popupDiv, 'User Logged Off');
+
+        chrome.browserAction.setBadgeText({
+            text: ''
+        });           
+            
+           
     }
 
     if (isLocalLibraryCmd(ev.text) == false) {
@@ -436,28 +356,33 @@ function updateTimerPop(divId, msg) {
     }
 }
 
-// gets called every second
-function wwwShowTimer() {
+function originShowTimer(originPtr) {
 
-    var Elapsed = Date.now() - wwwStartTime;
+    var Elapsed = Date.now() - originObjList[originPtr].startTime;
     var mSecRemain = redTime - Elapsed;
     var SecRemain = (redTime - Elapsed) / 1000;
     var min = parseInt((SecRemain / 60) + '');
     var sec = (SecRemain - min * 60).toFixed(0);
 
+    var popupDiv='wwwtimer';
+    
+    if (/qa/.test(originObjList[originPtr].origin)) {
+        popupDiv='othtimer';
+    }
+
     if (mSecRemain <= 0) {
 
-        UpdatePopup('wwwtimer', "Logout", 1);
-        clearInterval(wwwTimer); // Stop the interval timer, no longer needed
-        if (wwwUserClosedLogoffNotice == false) {
+        UpdatePopup(popupDiv, "Logout", 1);
+        clearInterval(originObjList[originPtr].timer); // Stop the interval timer, no longer needed
+        if (originObjList[originPtr].userClosedLogoffNotice == false) {
             chrome.browserAction.setBadgeText({
                 text: ''
             });
-            if (wwwInitLogoff == true) {
+            if (originObjList[originPtr].initLogoff == true) {
                 postMsg({
-                    hostx: 'www.',
+                    hostx: originObjList[originPtr].origin,
                     text: "ShowLoggedOffPopup"
-                }, id);
+                });
                 chrome.browserAction.setBadgeText({
                     text: '-'
                 });
@@ -467,22 +392,22 @@ function wwwShowTimer() {
 
             }
         }
-        wwwSession = false;
+        originObjList[originPtr].session = false;
         logDebug('No Time Remaining\n ' + varState());
     } else if (mSecRemain <= yellowTime) {
         //views[i].document.getElementById('wwwtimer').innerText = "Session Time Remaining "+min+"m "+sec+"s < 5 min";
-        UpdatePopup('wwwtimer', "Session Time Remaining " + min + "m " + sec + "s < 5 min", 0);
-        if (wwwUserClosedWarning == false) {
-            if (wwwWarningShownOnce == false) {
+        UpdatePopup(popupDiv, "Session Time Remaining " + min + "m " + sec + "s < 5 min", 0);
+        if (originObjList[originPtr].userClosedWarning == false) {
+            if (originObjList[originPtr].warningShownOnce == false) {
                 //the warning hasn't been displayed yet.  Don't display each clock tick, so disable after it has been shown once.
                 var ev = {
-                    hostx: 'www.',
+                    hostx: originObjList[originPtr].origin,
                     text: "ShowTimeoutWarning",
                     endtime: ''
                 };
-                ev.endTime = wwwStartTime + redTime;
+                ev.endTime = originObjList[originPtr].startTime + redTime;
                 postMsg(ev, id);
-                wwwWarningShownOnce = true;
+                originObjList[originPtr].warningShownOnce = true;
                 logDebug('After Warn Shown\n ' + varState());
                 chrome.browserAction.setBadgeText({
                     text: '!'
@@ -496,10 +421,13 @@ function wwwShowTimer() {
         }
     } else {
 
-        UpdatePopup('wwwtimer', "Session Time Remaining " + min + "m " + sec + "s", 0);
+        UpdatePopup(popupDiv, "Session Time Remaining " + min + "m " + sec + "s", 0);
     }
 
 }
+
+// gets called every second
+
 
 function UpdatePopup(divId, statusMsg, logStat) {
     var views = chrome.extension.getViews({
@@ -513,74 +441,20 @@ function UpdatePopup(divId, statusMsg, logStat) {
     }
 }
 
-function othShowTimer() {
 
-    var Elapsed = Date.now() - othStartTime;
-    var mSecRemain = redTime - Elapsed;
-    var SecRemain = (redTime - Elapsed) / 1000;
-
-    var min = parseInt((SecRemain / 60) + '');
-    var sec = (SecRemain - min * 60).toFixed(0);
-    //var views = chrome.extension.getViews({
-    //	type: "popup"
-    //});
-    //for (var i = 0; i < views.length; i++) {
-
-
-    if (mSecRemain <= 0) {
-        //views[i].document.getElementById('othtimer').innerText = "Test Logout";
-        UpdatePopup('othtimer', "Test Logout", 1);
-        clearInterval(othTimer);
-        if (othUserClosedLogoffNotice == false) {
-            if (othInitLogoff == true) {
-                postMsg({
-                    hostx: 'oth',
-                    text: "ShowLoggedOffPopup"
-                }, id);
-            }
-        }
-        othSession = false;
-    } else if (mSecRemain <= yellowTime) {
-        //views[i].document.getElementById('othtimer').innerText = "Test Session Time Remaining "+min+"m "+sec+"s < 5 min";
-        UpdatePopup('othtimer', "Test Session Time Remaining " + min + "m " + sec + "s < 5 min", 0);
-        if (othUserClosedWarning == false) {
-            if (othWarningShownOnce == false) {
-                // no need to show this each second. Show once, then stop.
-                var ev = {
-                    hostx: 'oth',
-                    text: "ShowTimeoutWarning",
-                    endtime: ''
-                };
-                ev.endTime = othStartTime + redTime;
-                postMsg(ev, id);
-                othWarningShownOnce = true;
-            }
-        }
-    } else {
-        //views[i].document.getElementById('othtimer').innerText = "Test Session Time Remaining "+min+"m "+sec+"s";
-        UpdatePopup('othtimer', "Test Session Time Remaining " + min + "m " + sec + "s", 0);
-    }
-    //}
-}
-
-
-function postMsg(ev, id) {
+function postMsg(ev) {
 
    // console.log('postMessage from background ', ev);
-    var host = "www."
-    if (ev.hostx == "oth" ) {
-        host="qa.";
-    }
-    //active: true, currentWindow: true}
-    //        active: true
+    var host = ev.hostx;
+
     if (typeof(chrome.tabs) === 'object') {
 
         chrome.tabs.query({
             active: true,
-            url: 'https://' + host + 'scoutbook.com/*'
+            url:  host +'/*'
         }, function (tabs) {
             if(tabs.length == 0) {
-                //console.log('No tab matching ' + 'https://' + host + 'scoutbook.com/*' + ' was found to send msg');
+                //console.log('No tab matching ' + 'https://' + host +'/*' + ' was found to send msg');
             } else {
                 //console.log(tabs);
                 chrome.tabs.sendMessage(tabs[0].id, ev);
@@ -595,11 +469,13 @@ function postMsg(ev, id) {
 
 // this function is a test function, not used normally
 function setTimePeriod(beforewarn, warntime) {
-    wwwSession = false;
-    othSession = false;
+    
+    for (var i = 0;i < originObjList.length;i++) {
+        originObjList[i].session = false;
+        clearInterval(originObjList[i].timer);
+    }
+    
 
-    clearInterval(wwwTimer);
-    clearInterval(othTimer);
 
     if (beforewarn != 0) {
         greenTime = 1000 * beforewarn; //e.g. 30 is 30 seconds
@@ -638,13 +514,18 @@ chrome.tabs.update(currentTab.id, {url: currentTab.url});
  */
 
 // only reload scoutbook tabs  -Adam Koch suggestion
-chrome.tabs.query({
-    url: '*://*.scoutbook.com/*'
-}, function (tabs) {
-    tabs.forEach((tab) => {
-        chrome.tabs.reload(tab.id);
+//?? Extension is only permitted for urls in manifest
+// url: '*://*.scoutbook.com/*'
+for (var i = 0; i<bkgHostArray.length; i++) {
+    chrome.tabs.query({
+        url: bkgHostArray[i]
+    }, function (tabs) {
+        tabs.forEach((tab) => {
+            chrome.tabs.reload(tab.id);
+        });
     });
-});
+}
+
 
 function logDebug(msg) {
     if (debug == true) {
@@ -670,20 +551,18 @@ function showLog() {
 
 function varState() {
     var res = '';
-    res += '                wwwSession:' + wwwSession;
-    res += ' wwwStartTime:' + logTime(wwwStartTime);
-    res += ' wwwUserClosedWarning:' + wwwUserClosedWarning;
-    res += ' wwwUserClosedLogoffNotice:' + wwwUserClosedLogoffNotice;
-    res += ' wwwWarningShownOnce:' + wwwWarningShownOnce;
-    res += ' wwwInitLogoff:' + wwwInitLogoff;
-    res += '\n';
-    res += '                 othSession:' + othSession;
-    res += ' othStartTime:' + logTime(othStartTime);
-    res += ' othUserClosedWarning:' + othUserClosedWarning;
-    res += ' othUserClosedLogoffNotice:' + othUserClosedLogoffNotice;
-    res += ' othWarningShownOnce:' + othWarningShownOnce;
-    res += ' othInitLogoff:' + othInitLogoff;
-
+    for (var i = 0; i < originObjList.length;i++) {
+        res += ' origin' + originObjList[i].origin;
+        res += ' Session:' + originObjList[i].session;
+        res += ' StartTime:' + logTime(originObjList[i].startTime);
+        res += ' UserClosedWarning:' + originObjList[i].userClosedWarning;
+        res += ' UserClosedLogoffNotice:' + originObjList[i].userClosedLogoffNotice;
+        res += ' WarningShownOnce:' + originObjList[i].warningShownOnce;
+        res += ' InitLogoff:' + originObjList[i].initLogoff;
+        res += '\n';        
+        
+    }
+    
     return res;
 }
 
@@ -708,7 +587,7 @@ function XHR_Proxy(xhrOptions) {
                 funcID: xhrOptions.funcID,
                 status: this.status,
                 data: 'Error Page not Found'
-            }, id);
+            });
             return;
         }
         if (this.readyState == 4 && this.status > 499) {
@@ -718,7 +597,7 @@ function XHR_Proxy(xhrOptions) {
                 funcID: xhrOptions.funcID,
                 status: this.status,
                 data: 'Error See Status'
-            }, id);
+            });
             return;
         }
         if (this.readyState == 4 && this.status == 200) {
@@ -730,7 +609,7 @@ function XHR_Proxy(xhrOptions) {
                 funcID: xhrOptions.funcID,
                 status: this.status,
                 data: this.responseText
-            }, id);
+            });
         }
     }
 
@@ -780,7 +659,7 @@ function XHR_Proxy(xhrOptions) {
             funcID: xhrOptions.funcID,
             status: 'General Error',
             data: 'Error See Status'
-        }, id);
+        });
         return;
     }
 }

@@ -397,7 +397,7 @@ function getLeadershipLIs(pageid, unitID, txtunit) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?ScoutUserID=' + escapeHTML(thisScoutID) + '&UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host +'/mobile/dashboard/admin/position.asp?ScoutUserID=' + escapeHTML(thisScoutID) + '&UnitID=' + escapeHTML(unitID);
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -428,7 +428,7 @@ function getMyUserMembership(id, unitID, pageid) {
             $('#membershipsLI', pageid).hide();
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?ScoutUserID=' + escapeHTML(id) + '&UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host +'/mobile/dashboard/admin/position.asp?ScoutUserID=' + escapeHTML(id) + '&UnitID=' + escapeHTML(unitID);
     xhttp.open("GET", url, true);
     xhttp.responseType = "text";
 
@@ -509,7 +509,7 @@ function getScoutPositionsFromRoster(pageid, unitID, txtunit) {
         }
     }
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/roster.asp?UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host +'/mobile/dashboard/admin/roster.asp?UnitID=' + escapeHTML(unitID);
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -628,7 +628,7 @@ function iterateForLeaderDates(pageid, unitID, txtunit) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/positions.asp?ScoutUserID=' + escapeHTML(scoutid) + '&UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host +'/mobile/dashboard/admin/positions.asp?ScoutUserID=' + escapeHTML(scoutid) + '&UnitID=' + escapeHTML(unitID);
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -674,7 +674,7 @@ function y2script() {
             $.mobile.loading('hide');
             $.mobile.changePage(
 
-                'https://' + host + 'scoutbook.com/mobile/dashboard/admin/unit.asp?UnitID=X&Refresh=1',
+                'https://' + host +'/mobile/dashboard/admin/unit.asp?UnitID=X&Refresh=1',
                 {
                 allowSamePageTransition: true,
                 transition: 'none',
@@ -1750,7 +1750,7 @@ function youthLeaderDeletePosGet(pageid, unitID, ptr) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?UserPositionID=' + posID + '&ScoutUserID=' + scoutID + '&UnitID=' + unitID;
+    var url = 'https://' + host +'/mobile/dashboard/admin/position.asp?UserPositionID=' + posID + '&ScoutUserID=' + scoutID + '&UnitID=' + unitID;
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -1781,7 +1781,7 @@ function youthLeaderDeletePosSet(unitID, ptr, pageID) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?Action=DeletePosition&UserPositionID=' + posID + '&ScoutUserID=' + scoutID + '&AdultUserID=&PageID=Page' + pageID + '&UnitID=' + unitID;
+    var url = 'https://' + host +'/mobile/dashboard/admin/position.asp?Action=DeletePosition&UserPositionID=' + posID + '&ScoutUserID=' + scoutID + '&AdultUserID=&PageID=Page' + pageID + '&UnitID=' + unitID;
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "text";
@@ -1822,7 +1822,7 @@ function youthLeaderModifyPosPost(pageid, unitID, ptr) {
 
     // New includes denid and patrolid... are they needed?
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?UserPositionID=' + posID + '&ScoutUserID=' + scoutID + '&AdultUserID=&UnitID=' + unitID + '&DenID=&PatrolID=';
+    var url = 'https://' + host +'/mobile/dashboard/admin/position.asp?UserPositionID=' + posID + '&ScoutUserID=' + scoutID + '&AdultUserID=&UnitID=' + unitID + '&DenID=&PatrolID=';
 
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1900,7 +1900,7 @@ function youthLeaderNewPosPostGet(pageid, unitID, ptr) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?UserPositionID=&ScoutUserID=' + scoutID + '&AdultUserID=&UnitID=' + unitID + '&DenID=&PatrolID=';
+    var url = 'https://' + host +'/mobile/dashboard/admin/position.asp?UserPositionID=&ScoutUserID=' + scoutID + '&AdultUserID=&UnitID=' + unitID + '&DenID=&PatrolID=';
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -1964,7 +1964,7 @@ function youthLeaderNewPosPost(pageid, unitID, ptr, umID) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?UserPositionID=&ScoutUserID=' + scoutID + '&AdultUserID=&UnitID=' + unitID + '&DenID=&PatrolID=';
+    var url = 'https://' + host +'/mobile/dashboard/admin/position.asp?UserPositionID=&ScoutUserID=' + scoutID + '&AdultUserID=&UnitID=' + unitID + '&DenID=&PatrolID=';
 
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

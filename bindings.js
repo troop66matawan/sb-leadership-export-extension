@@ -4,12 +4,13 @@
 This timeout is necessary to ensure that extension code has modified the __visible current__ page view after a hard reload.
 */
 
+/* temp disable removed */
 setTimeout(function () {
 
     //only change the page if it is not in the signup process || display of login process
     if (document.URL.indexOf('/mobile/signup') == -1 && window.location.search.substring(1).indexOf("ShowLogin=1") === -1) {
         //Only "change" the page if Feature Assistant is not already on the page view
-        if (/scoutbook\.com\/mobile\/.+/.test(document.URL)) {
+        if (/\/mobile\/.+/.test(document.URL)) {
 
             var thisPage = document.URL;
             if( $('#FeatureAssistant').length == 0) {
@@ -26,11 +27,12 @@ setTimeout(function () {
                     text: 'loading extension...',
                     textonly: false
                 });
-                var pre = document.URL.match(/(http.+)scoutbook\.com/)[1];
+                //var pre = document.URL.match(/(http.+)scoutbook\.com/)[1];
 
                 // Discovered that reloading the "same" page can cause animation issues and CSS issues. It is avoided by loading another page first
+                //pre+'scoutbook.com/mobile/',
                 $.mobile.changePage(
-                    pre+'scoutbook.com/mobile/', {
+                    '/mobile/', {
                         allowSamePageTransition: false,
                         transition: 'none',
                         showLoadMsg: false,
@@ -49,6 +51,7 @@ setTimeout(function () {
         }
     }
 }, 100);
+
 
 /*
 future reliability enhancements for server or network errors

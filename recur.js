@@ -431,7 +431,7 @@ function SetupPage() {
         //window.console &&console.log("pagehide event triggered after button load" + $(e.target).id + " " + iPage);
         if ($(e.target).id == undefined) {
             // Are we on a good page?
-            if ($.mobile.activePage[0].baseURI.includes('https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp') == false) {
+            if ($.mobile.activePage[0].baseURI.includes('https://' + host +'/mobile/dashboard/calendar/editevent.asp') == false) {
                 //window.console &&console.log("page not editevent.asp, no reload needed " + $.mobile.activePage[0].baseURI);
                 return
             }
@@ -695,7 +695,7 @@ function AdvancementSave() {
             IntermediateSave();
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=UpdateAdvancementLI';
+    var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=UpdateAdvancementLI';
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(formData);
@@ -776,7 +776,7 @@ function ReminderSave() {
 
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=SaveReminders';
+    var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=SaveReminders';
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(formData);
@@ -830,7 +830,7 @@ function submitForm2() {
         postReminder();
         //postAdvancement();
         /*
-        var url= 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID;
+        var url= 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID;
         $.ajax({
         url: url,
         type: 'POST',
@@ -854,7 +854,7 @@ function finalUpdate() {
     var err = true;
     //remove repeat from formpost
     fixFormPost();
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID;
+    var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID;
     $.ajax({
         url: url,
         type: 'POST',
@@ -875,7 +875,7 @@ function finalUpdate() {
                             textonly: true
                         });
 
-                        var curl = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/event.asp?' + iEventID;
+                        var curl = 'https://' + host +'/mobile/dashboard/calendar/event.asp?' + iEventID;
                         setTimeout(function () {
                             calChgPg(curl);
                         }, 1000);
@@ -938,7 +938,7 @@ function finalUpdate() {
                     text: 'An Error saving occurred...',
                     textonly: false
                 });
-                var curl = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/event.asp?' + iEventID;
+                var curl = 'https://' + host +'/mobile/dashboard/calendar/event.asp?' + iEventID;
                 setTimeout(function () {
                     calChgPg(curl);
                 }, 1000);
@@ -1029,7 +1029,7 @@ function IntermediateSave() {
             eventArray.length = 0;
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID;
+    var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID;
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(formPost);
@@ -1715,7 +1715,7 @@ function NextEvent() {
                 }, 200);
             }
         };
-        var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp';
+        var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp';
         xhttp.open("GET", url, true);
         xhttp.send();
         xhttp.onerror = function () {
@@ -1759,8 +1759,8 @@ function deleteNextEvent() {
             atEnd();
         }
     };
-    //"https://www.' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?EventID=" & EventID & "&Action=DeleteEvent&_=" & timeout() + 1, "https://www.scoutbook.com/mobile/dashboard/calendar/editevent.asp?EventID=" & EventID)
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID + "&Action=DeleteEvent";
+    //"https://www.' + host +'/mobile/dashboard/calendar/editevent.asp?EventID=" & EventID & "&Action=DeleteEvent&_=" & timeout() + 1, "https://www.scoutbook.com/mobile/dashboard/calendar/editevent.asp?EventID=" & EventID)
+    var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID + "&Action=DeleteEvent";
     xhttp.open("GET", url, true);
     xhttp.send();
     xhttp.onerror = function () {
@@ -1789,7 +1789,7 @@ function predeleteEvent() {
         getEventIDs("delete"); //Async Call
 
     } else {
-        var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=DeleteEvent';
+        var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=DeleteEvent';
         formPost = '';
         $.ajax({
             url: url,
@@ -1869,7 +1869,7 @@ function deleteListEvent() {
             }
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=DeleteEvent';
+    var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + iEventID + '&Action=DeleteEvent';
     xhttp.open("GET", url, true);
     xhttp.send();
     xhttp.onerror = function () {
@@ -2041,7 +2041,7 @@ function getEventIDs(cb) {
              */
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/';
+    var url = 'https://' + host +'/mobile/dashboard/calendar/';
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
 
@@ -2099,7 +2099,7 @@ function getMoreEvents(start, maxEvent, cb) {
             }
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/default.asp?Action=SeeMoreEvents&EventIndex=' + start;
+    var url = 'https://' + host +'/mobile/dashboard/calendar/default.asp?Action=SeeMoreEvents&EventIndex=' + start;
 
     xhttp.open("POST", url, true);
     xhttp.responseType = "document";
@@ -2307,7 +2307,7 @@ function getNoteIDfromEvent(cb) {
     };
 
     eventid = hrflist.shift();
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/calendar/editevent.asp?' + eventid;
+    var url = 'https://' + host +'/mobile/dashboard/calendar/editevent.asp?' + eventid;
     xhttp.open("GET", url, true);
     //xhttp.responseType="document";
     xhttp.send();

@@ -157,8 +157,10 @@ function changepageurl(url) {
     // if the URL contains scoutbook.com but nothing else, do not nav to it
     $('#faOverlay').hide();
     var skipNav = false;
-    if (url.match(/scoutbook.com\//) != null) {
-        if (url.match(/scoutbook.com\/./) == null) {
+    //if (url.match(/scoutbook.com\//) != null) {
+        //if (url.match(/scoutbook.com\/./) == null) {
+    if(/\.com|\.org/.test(url)) {
+        if (url.match(/\.com|\.org\/./) == null) {
             skipNav = true;
         }
         if (url.match(/Action=Print/) != null) {

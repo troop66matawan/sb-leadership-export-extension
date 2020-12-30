@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "name": "Troop 66Feature Assistant Extension for Scoutbook",
     "description": "Extends Scoutbook functionality with Leadership export",
-    "version": "0.0.1.23",
+    "version": "0.0.2.02",
     "background": {
         "scripts": ["sbbackground.js"]
     },
@@ -12,7 +12,9 @@
             "matches": [
                 "https://www.scoutbook.com/*",
                 "https://qa.scoutbook.com/*",
-                "https://stg2.scoutbook.com/*"
+                "https://stg2.scoutbook.com/*",
+                "https://scoutbook.scouting.org/*",
+                "https://scoutbookqa.scouting.org/*"
                 ],
             "js": ["sbcontent.js"],
             "run_at": "document_start"
@@ -45,6 +47,8 @@
         "https://www.scoutbook.com/*",
         "https://qa.scoutbook.com/*",
         "https://stg2.scoutbook.com/*",
+        "https://scoutbook.scouting.org/*",
+        "https://scoutbookqa.scouting.org/*",
         "storage"
     ]
 }

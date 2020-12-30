@@ -20,7 +20,8 @@ var wwwSession = false;
 var wwwWarnShown = false;
 var wwwInitLogoff = false; //Mirrors Session but is cleared by a close button on popup.  Logoff popup on shows if it is true.
 var othInitLogoff = false;
-var host = window.location.hostname.substr(0, location.hostname.indexOf('.') - 1);
+//var host = window.location.hostname.substr(0, location.hostname.indexOf('.') - 1);
+var host = window.location.hostname;
 
 function rawDataFullPageSession(data, tpageid, err, thisurl) {
     // All pages should have this
@@ -32,13 +33,11 @@ function rawDataFullPageSession(data, tpageid, err, thisurl) {
     }
     if (startfunc == -1) {
         var msgObj = {
-            hostx: "oth",
+            hostx: host,
             text: "UnrecognizedPage",
             url: thisurl
         };
-        if (host == "www.") {
-            msgObj.hostx = host;
-        }
+
         sendTimerMsg(msgObj, "*");
 
         if (debug == 1) {
@@ -162,7 +161,7 @@ function localSession(ev, inStr) {
                 //clear any popups
 
                 postMsg({
-                    hostx: 'www.',
+                    hostx: host,
                     text: "HidePopups"
                 }, id);
             }
@@ -172,7 +171,7 @@ function localSession(ev, inStr) {
                     if ((redTime - wwwElapsed) >= 0) {
                         // clear if previously cleared and in warning period
                         postMsg({
-                            hostx: 'www.',
+                            hostx: host,
                             text: "HidePopups"
                         }, id);
                     }
@@ -181,7 +180,7 @@ function localSession(ev, inStr) {
             // Previously requested a clear so if it is already displayed, clear it
             if (wwwCloseLogoff == true) {
                 postMsg({
-                    hostx: 'www.',
+                    hostx: host,
                     text: "HidePopups"
                 }, id);
             }
@@ -194,13 +193,13 @@ function localSession(ev, inStr) {
             if (wwwCloseLogoff == true) {
                 // Previously requested a clear so if it is already displayed, clear it
                 postMsg({
-                    hostx: 'www.',
+                    hostx: host,
                     text: "HidePopups"
                 }, id);
             } else {
                 if (wwwInitLogoff == true) {
                     postMsg({
-                        hostx: 'www.',
+                        hostx: host,
                         text: "ShowLoggedOffPopup"
                     }, id);
                 }
@@ -237,7 +236,7 @@ function wwwShowTimer() {
         if (wwwCloseLogoff == false) {
             if (wwwInitLogoff == true) {
                 postMsg({
-                    hostx: 'www.',
+                    hostx: host,
                     text: "ShowLoggedOffPopup"
                 }, id);
             }
@@ -248,7 +247,7 @@ function wwwShowTimer() {
         if (wwwCloseWarn == false) {
             //if(wwwWarnShown==false) {
             var ev = {
-                hostx: 'www.',
+                hostx: host,
                 text: "ShowTimeoutWarning",
                 endtime: ''
             }
@@ -309,8 +308,10 @@ window.addEventListener('message', function (ev) {
 
 function handleSession(ev) {
     // console.log('---------------------------New event in script:', ev.data.hostx,ev.data.text,host,lastEvent);
-    if (ev.data.hostx == host || ((ev.data.hostx == 'oth') && (host != 'www.'))) {
-        //console.log('ok, process it');
+    //console.log(JSON.stringify(ev.data))
+    //if (ev.data.hostx == host || ((ev.data.hostx == 'oth') && (host != 'www.')))
+    if (ev.data.hostx == 'https://'+ host) { 
+     //console.log('ok, process it');
         lastEvent += 1;
         if (ev.data.text == 'ShowTimeoutWarning') {
             var endtime = ev.data.endTime
@@ -350,13 +351,11 @@ function handleSession(ev) {
 
         if (isLocalLibraryCmd(ev.data.text) == false) {
             var msgObj = {
-                hostx: "oth",
+                hostx: host,
                 text: "Ack",
                 msg: ''
             };
-            if (host == "www.") {
-                msgObj.hostx = host;
-            }
+
             msgObj.msg = ev.data.text;
             //Only care if url of this page is a dashboard OR mobile has dashboard visible
             sendTimerMsg(msgObj, "*");
@@ -385,6 +384,7 @@ Checks to make sure request to do this is for the current domain
  */
 function logCB(hostx) {
 
+/*
     if (host == 'www.') {
         if (hostx == 'www.') {
             getDashboard();
@@ -394,17 +394,18 @@ function logCB(hostx) {
             getDashboard();
         }
     }
+    */
+    if(host == hostx) {
+        getDashboard();
+    }
 }
 
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState == "visible") {
         var msgObj = {
-            hostx: "oth",
+            hostx: host,
             text: "Visible"
         };
-        if (host == "www.") {
-            msgObj.hostx = host;
-        }
 
         sendTimerMsg(msgObj, "*");
     }
@@ -412,45 +413,35 @@ document.addEventListener("visibilitychange", function () {
 
 function sendPopupClosed() {
     var msgObj = {
-        hostx: "oth",
+        hostx: host,
         text: "ClosePopup"
     };
-    if (host == "www.") {
-        msgObj.hostx = host;
-    }
+
     sendTimerMsg(msgObj, "*");
 }
 
 function resetLogoutTimer(thisurl) {
-    //console.log('resetLogoutTImer sensitive yes');
+
     var msgObj = {
-        hostx: "oth",
+        hostx: host,
         text: "RestartSession",
         sensitive: 'yes',
         url: ''
     };
     msgObj.url = thisurl;
-    //var msgObj ={ hostx: "oth", text: "RestartSession",sensitive: 'yes' };
-    if (host == "www.") {
-        msgObj.hostx = host;
-    }
 
-    //nbconsole.log('post message', msgObj);
     sendTimerMsg(msgObj, "*");
-    //nbconsole.log('Reset sensitive due to extension get '+ sbDateFormat(Date.now()));
 }
 
 function pokeSession(thisurl) {
     var msgObj = {
-        hostx: "oth",
+        hostx: host,
         text: "RestartSession",
         sensitive: 'no',
         url: ''
     };
     msgObj.url = thisurl;
-    if (host == "www.") {
-        msgObj.hostx = host;
-    }
+
     if (thisurl.indexOf('mobile/dashboard') != -1) {
         //check for blog on this page; check for 302 on url
 
@@ -482,15 +473,11 @@ function pokeSession(thisurl) {
 
 function pokeSessionAjax(thisurl) {
     var msgObj = {
-        hostx: "oth",
+        hostx: host,
         text: "RestartSession",
         sensitive: 'no',
         url: ''
     };
-    msgObj.url = thisurl;
-    if (host == "www.") {
-        msgObj.hostx = host;
-    }
 
     setTimeout(function () {
         sendTimerMsg(msgObj, "*");
@@ -510,7 +497,7 @@ function getDashboard() {
             resetLogoutTimer('/mobile/dashboard/');
         }
     };
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/';
+    var url = 'https://' + host +'/mobile/dashboard/';
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
     xhttp.send();

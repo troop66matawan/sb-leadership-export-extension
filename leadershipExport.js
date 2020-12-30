@@ -390,7 +390,7 @@ function getLeadershipLIsExport(pageid, unitID, txtunit) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/position.asp?ScoutUserID=' + escapeHTML(thisScoutID) + '&UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host + '/mobile/dashboard/admin/position.asp?ScoutUserID=' + escapeHTML(thisScoutID) + '&UnitID=' + escapeHTML(unitID);
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -469,7 +469,7 @@ function getScoutPositionsFromRosterForExport(pageid, unitID, txtunit) {
         }
     }
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/roster.asp?UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host + '/mobile/dashboard/admin/roster.asp?UnitID=' + escapeHTML(unitID);
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -573,7 +573,7 @@ function iterateForLeaderDatesExport(pageid, unitID, txtunit) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/positions.asp?ScoutUserID=' + escapeHTML(scoutid) + '&UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host + '/mobile/dashboard/admin/positions.asp?ScoutUserID=' + escapeHTML(scoutid) + '&UnitID=' + escapeHTML(unitID);
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -655,7 +655,7 @@ function iterateForScoutPII(pageid, unitID, txtunit) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/editprofile.asp?ScoutUserID=' + escapeHTML(scoutid) + '&UnitID=' + escapeHTML(unitID);
+    var url = 'https://' + host + '/mobile/dashboard/admin/editprofile.asp?ScoutUserID=' + escapeHTML(scoutid) + '&UnitID=' + escapeHTML(unitID);
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -680,7 +680,7 @@ function y2Exportscript() {
             $.mobile.loading('hide');
             $.mobile.changePage(
 
-                'https://' + host + 'scoutbook.com/mobile/dashboard/admin/unit.asp?UnitID=X&Refresh=1',
+                'https://' + host + '/mobile/dashboard/admin/unit.asp?UnitID=X&Refresh=1',
                 {
                     allowSamePageTransition: true,
                     transition: 'none',

@@ -151,9 +151,9 @@ var gInviteScout = '';
 
 //##################
 
-// Set URL host
-
-var host = document.baseURI.match(/\/\/([^\.]+)/)[1] + '.';
+// Set URL host  - moved to localsession,js
+//var host = window.location.hostname;
+//var host = document.baseURI.match(/\/\/([^\.]+)/)[1] + '.';
 
 // Reload the page so scripts may be embedded
 //dbconsole.log('inject has loaded');
@@ -200,12 +200,10 @@ function detectSendLogoff(settings) {
         //alert('logout');
         //console.log('ajax send '+ settings.url);
         var msgObj = {
-            hostx: "oth",
+            hostx: host,
             text: "LogOff"
         };
-        if (host == "www.") {
-            msgObj.hostx = host;
-        }
+
         sendTimerMsg(msgObj, "*");
     }
 }
@@ -242,20 +240,27 @@ function localDataFilter(data, type, url) {
 
 function processRawData(data, type, thisurl) {
 
-    
+var indata = data;
+
+    if(/^\$\.mobile\.changePage/.test(data)) {
+       //do not modify changepages
+       /* temp add console.log */
+        //console.log('Skip modify ' +thisurl + ' ' + data);
+        return data;
+    }
     //get a fuller url for ajax responses
     if (thisurl.match(/\/includes\/ajax\.asp/) != null) {
-        thisurl = 'scoutbook.com/mobile' + thisurl;
+        thisurl = host + '/mobile' + thisurl;
     }
 
     // DO NOT PROCESS FURTHER IF THIS PAGE IS DETECTED
-    if (thisurl.match(/scoutbook\.com\/mobile\/signup/) != null) {
+    if (thisurl.match(/\/mobile\/signup/) != null) {
         //console.log('This page is undisturbed -signup'+thisurl);
         return data;
     }
 
     //handle Site Wide functions and Monitors
-    if (thisurl.match(/scoutbook\.com\/mobile\//) != null) {
+    if (thisurl.match(/(\.com|\.org)\/mobile\//) != null) {
 
         if (thisurl.match(/\/mobile\/includes\/ajax/) == null) {
             procOnMobilePageRcvd(thisurl); //this response is a full Page
@@ -295,7 +300,9 @@ function processRawData(data, type, thisurl) {
             }
 
             var err = false;
+/* temp out removed */ 
             data = rawDataFullPageSession(data, tpageid, err, thisurl);
+
             if (err == true) {
                 return data; //page is unrecognized
             }
@@ -311,12 +318,15 @@ function processRawData(data, type, thisurl) {
         }*/
         var newdata = '';
         //add modification notice to all pages
+
+/* temp out removal of footer  removed*/
         if (pageid != '') {
             startfunc = data.indexOf('<div style="margin-top: 6px;">&copy;');
             newdata = data.slice(0, startfunc);
             newdata += '<div id="FeatureAssistant" style="margin-top: 6px;">Feature Assistant Active</div>';
             data = newdata + data.slice(startfunc);
         }
+       
 
     }
 
@@ -614,7 +624,7 @@ function procYouthLeadershipExportItem(unitID, denID, patrolID, pageid, txtunit)
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/adultconnections.asp';
+    var url = 'https://' + host +'/mobile/dashboard/admin/adultconnections.asp';
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
@@ -724,7 +734,7 @@ function procProfileGetEditScouts(unitID, pageid) {
         }
     };
 
-    var url = 'https://' + host + 'scoutbook.com/mobile/dashboard/admin/adultconnections.asp';
+    var url = 'https://' + host +'/mobile/dashboard/admin/adultconnections.asp';
 
     xhttp.open("GET", url, true);
     xhttp.responseType = "document";
