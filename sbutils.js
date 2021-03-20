@@ -323,7 +323,7 @@ var indata = data;
         if (pageid != '') {
             startfunc = data.indexOf('<div style="margin-top: 6px;">&copy;');
             newdata = data.slice(0, startfunc);
-            newdata += '<div id="FeatureAssistant" style="margin-top: 6px;">Feature Assistant Active</div>';
+            newdata += '<div id="FeatureAssistant" style="margin-top: 6px;">T66 Feature Assistant Active</div>';
             data = newdata + data.slice(startfunc);
         }
        
@@ -608,7 +608,8 @@ function procYouthLeadershipExportItem(unitID, denID, patrolID, pageid, txtunit)
 
             scoutProfileObjList = [];
 
-            getLeadershipLIsExport(pageid, unitID, txtunit);
+            //getLeadershipLIsExport(pageid, unitID, txtunit);
+            getScoutPositionsFromRosterForExport(pageid, unitID, txtunit);
             return;
 
             // Set global to modify next page
